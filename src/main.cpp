@@ -1,35 +1,37 @@
-#include<bits/stdc++.h>
-#include<SDL2/SDL.h>
-
-using namespace std;
-
-const int WIDTH = 640;
-const int HEIGHT = 480;
+#include"Game.hpp"
 
 
-int main(){
-    SDL_Window* window = NULL;
+Game *game = nullptr;
+
+int main(int argc, const char * argv[]){
+
+    const int fps = 60;
+    const int delay = 1000 / fps;
+
+    Uint32 frameStart;
+    Uint32 frameTime;
+
     
-    SDL_Surface* screenSurface = NULL;
+    game = new Game();
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0){
-        cout << "Error while initializing SDL! Quitting!" << endl;
-        return 0;
-    }
-    else{
-        window = SDL_CreateWindow("Hello, World!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
-        if (window == NULL){
-            cout << "Errow creating window" << endl;
-            return 0;
-        }
-        else{
-            screenSurface = SDL_GetWindowSurface(window);
-            SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format,0xFF, 0xFF, 0xFF));
-            SDL_UpdateWindowSurface(window);
-            SDL_Delay(2000);
-            SDL_DestroyWindow(window);
-            SDL_Quit();
-            return 0;
+    game -> init("Hello, World!", 0, 0, 800, 640, false);
+
+    while (game -> running()){
+        frameStart = SDL_GetTicks();
+
+
+        game -> event_handler();
+        game -> update();
+        game -> render();
+
+        frameTime = SDL_GetTicks() - frameStart;
+
+        if (delay > frameTime){
+            SDL_Delay(delay - frameTime);
         }
     }
+
+    game -> cleanup();
+
+    return 0;
 }
