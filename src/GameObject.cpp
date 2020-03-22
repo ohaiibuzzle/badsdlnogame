@@ -1,10 +1,10 @@
 #include"GameObject.hpp"
 #include"TextureLoader.hpp"
 
-GameObject::GameObject(const char* texpath, SDL_Renderer* ren, int x, int y)
+GameObject::GameObject(const char* texpath, int x, int y)
 {
-    renderer = ren;
-    objTexture = TextureLoader::Loader(texpath, ren);
+    renderer = Game::renderer;
+    objTexture = TextureLoader::Loader(texpath);
 
     xpos = x;
     ypos = y;
@@ -26,5 +26,5 @@ void GameObject::ObjUpdate(){
 }
 
 void GameObject::ObjRender(){
-    SDL_RenderCopy(renderer, objTexture, &srcRect, &destRect);
+    SDL_RenderCopy(Game::renderer, objTexture, &srcRect, &destRect);
 }

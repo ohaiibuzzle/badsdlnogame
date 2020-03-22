@@ -13,7 +13,6 @@ class Game
 private:
     bool isRunning;
     SDL_Window *window;
-    static SDL_Renderer *renderer;
     int cnt;
 public:
     Game(/* args */);
@@ -26,6 +25,8 @@ public:
     void cleanup();
     void event_handler();
     bool running() {return isRunning;};
+
+    static SDL_Renderer *renderer;
 };
 
 #endif

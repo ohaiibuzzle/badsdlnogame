@@ -52,7 +52,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         printf("Things happened: %s \n", SDL_GetError());
     }
     
-    bird = new GameObject("assets/bird2.png", renderer, 0, 0);
+    bird = new GameObject("assets/bird2.png", 0, 0);
 
     std::cout << "Application init successful!" << std::endl;
 
@@ -69,9 +69,6 @@ void Game::render(){
 
 void Game::update(){
     bird->ObjUpdate();
-
-    cnt++;
-    std::cout << cnt << std::endl;
 };
 void Game::event_handler(){
     SDL_Event event;
