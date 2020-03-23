@@ -5,6 +5,9 @@
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
 #include<png.h>
+#include"TextureLoader.hpp"
+#include"Birds.hpp"
+#include"PlayerPipe.hpp"
 
 using namespace std;
 
@@ -26,7 +29,10 @@ public:
     void event_handler();
     bool running() {return isRunning;};
 
+    int randomNumber(int max_val){std::srand(std::time(NULL)); return std::rand()%max_val;};
+
     static SDL_Renderer *renderer;
+    static SDL_Event event;
 };
 
 #endif

@@ -10,19 +10,19 @@ GameObject::GameObject(const char* texpath, int x, int y)
     ypos = y;
 }
 
-void GameObject::ObjUpdate(){
+void GameObject::ObjUpdate()
+{
     xpos++;
-    ypos++;
 
-    srcRect.h = 64;
-    srcRect.w = 64;
+    srcRect.h = 320;
+    srcRect.w = 320;
     srcRect.x = 0;
     srcRect.y = 0;
 
     destRect.x = xpos;
     destRect.y = ypos;
-    destRect.w = srcRect.w;
-    destRect.h = srcRect.h;
+    destRect.w = srcRect.w / 5;
+    destRect.h = srcRect.h / 5;
 }
 
 void GameObject::ObjRender(){

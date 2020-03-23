@@ -1,10 +1,20 @@
 #include "Game.hpp"
-#include "TextureLoader.hpp"
+#include "DVD.hpp"
 #include "GameObject.hpp"
 
-GameObject* bird;
+SDL_Event Game::event;
 
 SDL_Renderer* Game::renderer = nullptr;
+
+SDL_Texture* background = nullptr;
+
+SDL_Rect dest;
+
+DVD* DVD_object;
+
+playerPipe* pipes;
+
+vector<Birds*> all_birds;
 
 Game::Game()
 {
@@ -52,35 +62,62 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         printf("Things happened: %s \n", SDL_GetError());
     }
     
-    bird = new GameObject("assets/bird2.png", 0, 0);
+    DVD_object = new DVD();
 
-    std::cout << "Application init successful!" << std::endl;
+    background = TextureLoader::Loader("assets/bg.png");
+    dest.w = 800;
+    dest.h = 640;
+    dest.x = dest.y = 0;
 
-};
+    pipes = new playerPipe(600, -75, 150);
+
+    for(int i = 0; i < 10; i++){
+        all_birds.push_back(new Birds(std::rand()%200, std::rand()%640));
+    }
+}
 
 void Game::render(){
     SDL_RenderClear(renderer);
 
-    bird->ObjRender();
-
+    SDL_RenderCopy(renderer, background, NULL, &dest);
+    DVD_object->render();
+    pipes->render();
+    for_each(all_birds.begin(), all_birds.end(), mem_fun(&Birds::render));
+    
     //TODO
     SDL_RenderPresent(renderer);
 };
 
 void Game::update(){
-    bird->ObjUpdate();
-};
-void Game::event_handler(){
-    SDL_Event event;
-    SDL_PollEvent(&event);
-    switch (event.type)
+    DVD_object->update();
+    pipes -> update();
+    for_each(all_birds.begin(), all_birds.end(), bind2nd(mem_fun(&Birds::update), pipes->getHeight()));
+    for_each(all_birds.begin(), all_birds.end(), bind2nd(mem_fun(&Birds::check_collision), pipes -> getRectUp()));
+    for_each(all_birds.begin(), all_birds.end(), bind2nd(mem_fun(&Birds::check_collision), pipes -> getRectDown()));
+    for (auto i = 0; i != all_birds.size(); i++)
     {
-    case SDL_QUIT:
-        isRunning = false;
-        break;
+        if (all_birds[i]->check_defeat()) cleanup();
+    }
     
-    default:
-        break;
+}
+
+void Game::event_handler(){
+    SDL_PollEvent(&event);
+    if (event.type == SDL_QUIT){
+        isRunning = false;
+    }
+    else if (event.type == SDL_KEYDOWN){
+        switch (event.key.keysym.sym)
+        {
+        case (SDLK_ESCAPE):
+            isRunning = false;
+            break;
+        case (SDLK_g):
+            pipes->startSmashing();
+            break;
+        default:
+            break;
+        }
     }
 };
 
