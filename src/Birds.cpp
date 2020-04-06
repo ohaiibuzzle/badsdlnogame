@@ -20,7 +20,7 @@ void Birds::render(){
 }
 
 void Birds::update(int height){
-    if (dest.y > height - rand() % 150){
+    if (dest.y > height - rand() % 130){
         flyUp();
     }
     dest.y += gravity;
@@ -28,7 +28,7 @@ void Birds::update(int height){
 }
 
 void Birds::flyUp(){
-    dest.y -= jump;
+    dest.y -= rand()%jump;
 }
 
 bool Birds::check_defeat(){
@@ -36,9 +36,15 @@ bool Birds::check_defeat(){
     else return false;
 }
 
+void Birds::increase_speed()
+{
+    speed++;
+}
+
 bool Birds::check_collision(SDL_Rect pipeRect){
     if (((SDL_HasIntersection(&dest, &pipeRect) && SDL_TRUE)==SDL_TRUE)){
         dest.x = rand()%200;
+        Game::cnt++;
         return true;
     }
     else return false;

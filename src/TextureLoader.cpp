@@ -15,8 +15,7 @@ SDL_Texture* TextureLoader::Loader(const char* file)
     else
     {
         printf("Error loading texture %s: %s", file, IMG_GetError());
-        SDL_Texture* notex;
-        return notex;
+        throw "TXT_LOAD_ERROR";
     }
     
 }

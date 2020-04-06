@@ -16,9 +16,10 @@ playerPipe* pipes;
 
 vector<Birds*> all_birds;
 
+int Game::cnt = 0;
+
 Game::Game()
 {
-    cnt = 0;
 }
 
 Game::~Game()
@@ -71,7 +72,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
     pipes = new playerPipe(600, -75, 150);
 
-    for(int i = 0; i < 10; i++){
+    srand(time(NULL));
+
+    for(int i = 0; i < rand()%20; i++){
         all_birds.push_back(new Birds(std::rand()%200, std::rand()%640));
     }
 }
@@ -96,9 +99,10 @@ void Game::update(){
     for_each(all_birds.begin(), all_birds.end(), bind2nd(mem_fun(&Birds::check_collision), pipes -> getRectDown()));
     for (auto i = 0; i != all_birds.size(); i++)
     {
-        if (all_birds[i]->check_defeat()) cleanup();
+        if (all_birds[i]->check_defeat()) isRunning=false;
+        cout << "Curr. Point:" << cnt << endl;
     }
-    
+    if(rand() % 99*60 == 0) for_each(all_birds.begin(), all_birds.end(), mem_fun(&Birds::increase_speed));
 }
 
 void Game::event_handler(){
