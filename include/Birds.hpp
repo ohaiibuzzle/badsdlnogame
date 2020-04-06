@@ -6,9 +6,9 @@ class Birds
     private:
         SDL_Texture* birdTex;
         SDL_Rect src, dest;
-        int gravity = 2;
+        int gravity = 4;
         int jump = 15;
-        int speed = 2;
+        int speed = 3;
 
     public:
         Birds(int posx, int posy);

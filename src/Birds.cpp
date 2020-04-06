@@ -20,11 +20,11 @@ void Birds::render(){
 }
 
 void Birds::update(int height){
-    if (dest.y > height - rand() % 130){
+    if (dest.y > height - rand() % 200){
         flyUp();
     }
-    dest.y += gravity;
-    dest.x += speed;
+    dest.y += gravity + rand() % 3;
+    dest.x += speed + rand() %2;
 }
 
 void Birds::flyUp(){

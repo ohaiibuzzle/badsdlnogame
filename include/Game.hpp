@@ -8,8 +8,7 @@
 #include"TextureLoader.hpp"
 #include"Birds.hpp"
 #include"PlayerPipe.hpp"
-
-using namespace std;
+#include <unistd.h>
 
 class Game
 {
@@ -33,7 +32,7 @@ public:
     static SDL_Renderer *renderer;
     static SDL_Event event;
 
-    static int cnt;
+    static int cnt; 
 };
 
 #endif

@@ -16,6 +16,8 @@ class playerPipe
 
         SDL_Rect srcUpper, destUpper;
         SDL_Rect srcLower, destLower;
+
+        int now = 10;
     public:        
 
         playerPipe(int posx, int posy, int space);

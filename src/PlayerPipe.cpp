@@ -20,6 +20,8 @@ playerPipe::playerPipe(int posx, int posy, int space)
 
     xpos = posx;
     ypos = posy;
+    
+    now = time(NULL);
 }
 
 void playerPipe::render(){
@@ -28,8 +30,8 @@ void playerPipe::render(){
 }
 
 void playerPipe::update(){
-    smashPipe();
-    releasePipe();
+        smashPipe();
+        releasePipe();
 }
 
 void playerPipe::smashPipe(){
