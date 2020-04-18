@@ -22,7 +22,6 @@ playerPipe::playerPipe(int posx, int posy, int space)
     xpos = posx;
     ypos = posy;
 
-    
     now = time(NULL);
 }
 
@@ -52,6 +51,7 @@ void playerPipe::smashPipe(){
     else if(isSmashing && smashdist >= spacing/2 && !isReleasing){
         isSmashing = false;
         isReleasing = true;
+        //add music
     }
 }
 
