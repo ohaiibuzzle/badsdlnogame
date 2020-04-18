@@ -2,7 +2,6 @@
 
 playerPipe::playerPipe(int posx, int posy, int space)
 {
-
     spacing = space;
     upperPipe = TextureLoader::Loader("assets/pipeUpper.png");
     lowerPipe = TextureLoader::Loader("assets/pipeLower.png");
@@ -51,7 +50,7 @@ void playerPipe::smashPipe(){
     else if(isSmashing && smashdist >= spacing/2 && !isReleasing){
         isSmashing = false;
         isReleasing = true;
-        //add music
+        Mix_PlayChannel(-1, Game::smashfx, 1);
     }
 }
 

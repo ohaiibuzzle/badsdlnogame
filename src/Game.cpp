@@ -21,6 +21,7 @@ vector<Birds*> all_birds;
 int Game::cnt = 0;
 
 Mix_Music* bgm = NULL;
+Mix_Chunk* Game::smashfx = NULL;
 
 Game::Game()
 {
@@ -86,6 +87,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     bgm = Mix_LoadMUS("assets/bgm.mp3");
 
     Mix_PlayMusic(bgm, -1);
+    smashfx = Mix_LoadWAV("assets/smash.wav");
     
     DVD_object = new DVD();
 
@@ -98,7 +100,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
     srand(time(NULL));
 
-    for(int i = 0; i < rand()%20; i++){
+    for(int i = 0; i < rand()%20 + 1; i++){
         all_birds.push_back(new Birds(std::rand()%200, std::rand()%640));
     }
 }
@@ -148,6 +150,7 @@ void Game::event_handler(){
             break;
         case (SDLK_g):
             pipes->startSmashing();
+
             break;
         default:
             break;

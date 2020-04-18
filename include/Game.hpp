@@ -35,6 +35,8 @@ public:
     static SDL_Event event;
 
     static int cnt; 
+
+    static Mix_Chunk* smashfx;
 };
 
 #endif
