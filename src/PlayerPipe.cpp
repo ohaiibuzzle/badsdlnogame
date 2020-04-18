@@ -2,6 +2,7 @@
 
 playerPipe::playerPipe(int posx, int posy, int space)
 {
+
     spacing = space;
     upperPipe = TextureLoader::Loader("assets/pipeUpper.png");
     lowerPipe = TextureLoader::Loader("assets/pipeLower.png");
@@ -20,8 +21,13 @@ playerPipe::playerPipe(int posx, int posy, int space)
 
     xpos = posx;
     ypos = posy;
+
     
     now = time(NULL);
+}
+
+playerPipe::~playerPipe()
+{
 }
 
 void playerPipe::render(){

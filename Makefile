@@ -6,7 +6,7 @@ SRC		:= src
 INCLUDE	:= include
 LIB		:= lib
 
-CC_SDL := $(shell sdl2-config --cflags --libs) -lSDL2_image
+CC_SDL := $(shell sdl2-config --cflags --libs) -lSDL2_image -lSDL2_mixer
 
 LIBRARIES	:=
 EXECUTABLE	:= main

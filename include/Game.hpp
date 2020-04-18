@@ -4,6 +4,8 @@
 #include<bits/stdc++.h>
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_image.h>
+#include<SDL2/SDL_mixer.h>
+#include<mpg123.h>
 #include<png.h>
 #include"TextureLoader.hpp"
 #include"Birds.hpp"

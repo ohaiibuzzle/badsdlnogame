@@ -20,6 +20,8 @@ vector<Birds*> all_birds;
 
 int Game::cnt = 0;
 
+Mix_Music* bgm = NULL;
+
 Game::Game()
 {
 }
@@ -34,9 +36,15 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
         flags = SDL_WINDOW_FULLSCREEN;
     }
 
-    if(SDL_Init(SDL_INIT_EVERYTHING) == 0){
+    if(SDL_Init(SDL_INIT_VIDEO) == 0){
         std::cout << "It works!" << std::endl;
         window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
+
+        if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
+		{
+			printf("Texture filtering not enabled!");
+		}
+
         if (window)
         {
             std::cout << "Window up!" << std::endl;
@@ -64,6 +72,20 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         printf("Things happened: %s \n", SDL_GetError());
     }
+
+    int code = Mix_Init(MIX_INIT_MP3);
+	if (!(code & MIX_INIT_MP3))
+	{
+		throw "Audio error!";
+	}
+
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) != 0) {
+		throw "Audio init error!";
+	}
+
+    bgm = Mix_LoadMUS("assets/bgm.mp3");
+
+    Mix_PlayMusic(bgm, -1);
     
     DVD_object = new DVD();
 
@@ -101,7 +123,12 @@ void Game::update(){
     for_each(all_birds.begin(), all_birds.end(), bind2nd(mem_fun(&Birds::check_collision), pipes -> getRectDown()));
     for (auto i = 0; i != all_birds.size(); i++)
     {
-        if (all_birds[i]->check_defeat()) isRunning=false;
+        if (all_birds[i]->check_defeat()) 
+        {
+            isRunning=false;
+            Mix_PauseMusic();
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "YA YOU DIED!", "OOPS!", NULL);
+        }
         cout << "Curr. Point:" << cnt << endl;
     }
     if(rand() % 600*60 == 0) for_each(all_birds.begin(), all_birds.end(), mem_fun(&Birds::increase_speed));
