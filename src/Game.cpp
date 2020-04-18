@@ -100,7 +100,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
     srand(time(NULL));
 
-    for(int i = 0; i < rand()%20 + 1; i++){
+    for(int i = 0; i < rand()%20 + 5; i++){
         all_birds.push_back(new Birds(std::rand()%200, std::rand()%640));
     }
 }
@@ -133,8 +133,8 @@ void Game::update(){
         }
         cout << "Curr. Point:" << cnt << endl;
     }
-    if(rand() % 600*60 == 0) for_each(all_birds.begin(), all_birds.end(), mem_fun(&Birds::increase_speed));
-    if(rand() % 750*60 == 0) all_birds.push_back(new Birds(std::rand()%200, std::rand()%640));
+    if(rand() % 450*60 == 0) for_each(all_birds.begin(), all_birds.end(), mem_fun(&Birds::increase_speed));
+    if(rand() % 600*60 == 0) all_birds.push_back(new Birds(std::rand()%200, std::rand()%640));
 }
 
 void Game::event_handler(){
