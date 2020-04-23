@@ -2,7 +2,11 @@
 
 Birds::Birds(int posx, int posy)
 {
-    birdTex = TextureLoader::Loader("assets/bird.png");
+    birdMidTex = TextureLoader::Loader("assets/birdMid.png");
+    birdUpTex = TextureLoader::Loader("assets/birdUp.png");
+    birdDownTex = TextureLoader::Loader("assets/birdDown.png");
+
+    renderTex = birdMidTex;
 
     src.x = src.y = 0;
     src.w = 204;
@@ -16,13 +20,16 @@ Birds::Birds(int posx, int posy)
 }
 
 void Birds::render(){
-    SDL_RenderCopy(Game::renderer, birdTex, &src, &dest);
+    SDL_RenderCopy(Game::renderer, renderTex, &src, &dest);
 }
 
 void Birds::update(int height){
     if (dest.y > height - rand() % 200){
+        renderTex = birdUpTex;
         flyUp();
+        return;
     }
+    renderTex = birdDownTex;
     dest.y += gravity + rand() % 3;
     dest.x += speed + rand() %2;
 }

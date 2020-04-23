@@ -14,7 +14,7 @@ int main(int argc, const char * argv[]){
     
     game = new Game();
 
-    game -> init("Hello, World!", 500, 250, 800, 640, false);
+    game -> init("Is this a game?", 500, 250, 800, 640, false);
 
     while (game -> running()){
         frameStart = SDL_GetTicks();

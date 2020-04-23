@@ -4,11 +4,16 @@
 class Birds
 {
     private:
-        SDL_Texture* birdTex;
+        SDL_Texture* birdMidTex;
+        SDL_Texture* birdUpTex;
+        SDL_Texture* birdDownTex;
+
+        SDL_Texture* renderTex;
+        
         SDL_Rect src, dest;
         int gravity = 4;
         int jump = 15;
-        int speed = 3;
+        int speed = 4;
 
     public:
         Birds(int posx, int posy);

@@ -11,10 +11,21 @@
 #include"Birds.hpp"
 #include"PlayerPipe.hpp"
 #include <unistd.h>
+#include"support.hpp"
+#include<SDL2/SDL_ttf.h>
+#include<freetype2/ft2build.h>
 
 class Game
 {
 private:
+    unsigned char r = 255, g = 0, b = 0;
+
+    bool redDown = false, redUp = false;
+    bool greenDown = false, greenUp = false;
+    bool blueDown = false, blueUp = false;
+    int memex = -400;
+    
+    bool isStarted = false;
     bool isRunning;
     SDL_Window *window;
 public:
@@ -28,6 +39,7 @@ public:
     void cleanup();
     void event_handler();
     bool running() {return isRunning;};
+    void updatergb();
 
     int randomNumber(int max_val){std::srand(std::time(NULL)); return std::rand()%max_val;};
 
