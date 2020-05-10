@@ -54,6 +54,11 @@ void Birds::increase_speed()
     speed++;
 }
 
+void Birds::decrease_speed()
+{
+    speed--;
+}
+
 bool Birds::check_collision(SDL_Rect pipeRect){
     if (((SDL_HasIntersection(&dest, &pipeRect) && SDL_TRUE)==SDL_TRUE)){
         dest.x = rand()%200;

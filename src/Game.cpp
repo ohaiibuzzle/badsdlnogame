@@ -148,11 +148,19 @@ void Game::render(){
 
         SDL_Texture* startText = support::displayFont("Press Space to Start!", "assets/displayFont.ttf", 96, introColor);
 
+        SDL_Texture* diffDisplay = support::displayFont("Current difficulty: " + support::intText(difficulty), "assets/displayFont.ttf", 96, diffColor);
+        diff_rect.x= 15;
+        diff_rect.y= 605;
+        diff_rect.h = 25;
+        diff_rect.w = 200;
+
         SDL_RenderCopy(renderer, titleText, NULL, &title_rect);
         SDL_RenderCopy(renderer, startText, NULL, &font_rect);
+        SDL_RenderCopy(renderer, diffDisplay, NULL, &diff_rect);
 
         SDL_DestroyTexture(titleText);
         SDL_DestroyTexture(startText);
+        SDL_DestroyTexture(diffDisplay);
     }
     //TODO
     SDL_RenderPresent(renderer);
@@ -173,13 +181,13 @@ void Game::update(){
                 Mix_PauseMusic();
                 string score = support::formatScore(cnt);
                 SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "YA YOU DIED!", score.c_str(), NULL);
-                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Restarting game", "Just a few moments...", NULL);
                 isStarted = false;
                 all_birds.clear();
                 for(int i = 0; i < rand()%20 + 5; i++){
                     all_birds.push_back(new Birds(std::rand()%200, std::rand()%640));
                 }
                 cnt = 0;
+                difficulty = 1;
                 break;
             }
             cout << "Curr. Point:" << cnt << endl;
@@ -217,6 +225,22 @@ void Game::event_handler(){
                 Mix_ResumeMusic();
             }
             break;
+        case (SDLK_RIGHTBRACKET):
+        if (!isStarted)
+        {
+            for_each(all_birds.begin(), all_birds.end(), mem_fun(&Birds::increase_speed));
+            difficulty++;
+
+        }
+        break;
+        case (SDLK_LEFTBRACKET):
+        {
+            if (difficulty > 1 && !isStarted)
+            {
+                for_each(all_birds.begin(), all_birds.end(), mem_fun(&Birds::decrease_speed));
+                difficulty--;
+            }
+        }
         default:
             break;
         }

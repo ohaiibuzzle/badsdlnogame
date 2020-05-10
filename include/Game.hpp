@@ -32,11 +32,14 @@ private:
     SDL_Color introColor;
     SDL_Color titleColor;
     SDL_Color ptColor = {255, 255, 255};
+    SDL_Color diffColor = {0, 0, 0};
 
     SDL_Rect title_rect;
     SDL_Rect font_rect;
     SDL_Rect pt_rect;
+    SDL_Rect diff_rect;
 
+    int difficulty = 1;
 public:
     Game(/* args */);
     ~Game();
