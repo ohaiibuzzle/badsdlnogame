@@ -28,6 +28,7 @@ class Birds
         static void getDestroyed();
 
         void increase_speed();
+        void decrease_speed();
 
         bool check_collision(SDL_Rect pipeRect);
         bool check_defeat();
