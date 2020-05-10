@@ -9,6 +9,7 @@ SDL_Texture* TextureLoader::Loader(const char* file)
         SDL_Texture* texture = SDL_CreateTextureFromSurface(Game::renderer,tmpSf);
         SDL_FreeSurface(tmpSf);
         printf("Successfully Load: %s \n", file);
+        IMG_Quit();
         return texture;
         
     } 
