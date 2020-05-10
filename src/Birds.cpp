@@ -19,18 +19,24 @@ Birds::Birds(int posx, int posy)
 
 }
 
+Birds::~Birds(){
+    SDL_DestroyTexture(birdUpTex);
+    SDL_DestroyTexture(birdDownTex);
+    SDL_DestroyTexture(renderTex);
+}
+
 void Birds::render(){
     SDL_RenderCopy(Game::renderer, renderTex, &src, &dest);
 }
 
 void Birds::update(int height){
-    if (dest.y > height - rand() % 200){
+    if (dest.y > height - rand() % 150){
         renderTex = birdUpTex;
         flyUp();
         return;
     }
     renderTex = birdDownTex;
-    dest.y += gravity + rand() % 3;
+    dest.y += gravity + rand() % 4;
     dest.x += speed + rand() %2;
 }
 

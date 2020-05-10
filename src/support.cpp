@@ -28,6 +28,7 @@ SDL_Texture* support::displayFont(string text, string path, int size, SDL_Color 
             throw "Font Error!";
             return txt;
         }
+        TTF_CloseFont(font);
         SDL_FreeSurface(tmpSf);
         return txt;
     }

@@ -88,6 +88,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 	}
 
     bgm = Mix_LoadMUS("assets/bgm.mp3");
+    Mix_PlayMusic(bgm,-1);
+    Mix_PauseMusic();
 
     smashfx = Mix_LoadWAV("assets/smash.wav");
     
@@ -106,20 +108,27 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
 void Game::render(){
     SDL_RenderClear(renderer);
-
     SDL_RenderCopy(renderer, background, NULL, NULL);
     if(isStarted){
+        pt_rect.x=pt_rect.y=15;
+        pt_rect.h = 25;
+        pt_rect.w = 200;
+
+        SDL_Texture* pointDisplay = support::displayFont("Current Score: " + support::intText(cnt), "assets/displayFont.ttf", 96, ptColor);
+
+        SDL_RenderCopy(renderer, pointDisplay, NULL, &pt_rect);
+
         pipes->render();
         for_each(all_birds.begin(), all_birds.end(), mem_fun(&Birds::render));
+        
+        SDL_DestroyTexture(pointDisplay);
     }
     else
     {        
         DVD_object->render();
 
-        SDL_Color introColor={r,g,b};
-        SDL_Color titleColor={255-r,255-g,255-b};
-
-        SDL_Rect title_rect;
+        introColor={r,g,b};
+        titleColor={255-r,255-g,255-b};
 
         title_rect.x = 800/2 - 400/2 - 75;
         title_rect.y = 640/2 - 50/2 - 100;
@@ -129,7 +138,6 @@ void Game::render(){
 
         SDL_Texture* titleText = support::displayFont("Flappy desreveR", "assets/displayFont.ttf", 96, titleColor);
 
-        SDL_Rect font_rect;
         font_rect.x = memex+=4;
         font_rect.y = 640/2 - 50/2;
 
@@ -142,6 +150,9 @@ void Game::render(){
 
         SDL_RenderCopy(renderer, titleText, NULL, &title_rect);
         SDL_RenderCopy(renderer, startText, NULL, &font_rect);
+
+        SDL_DestroyTexture(titleText);
+        SDL_DestroyTexture(startText);
     }
     //TODO
     SDL_RenderPresent(renderer);
@@ -149,7 +160,7 @@ void Game::render(){
 
 void Game::update(){
     if (isStarted){
-        Mix_PlayMusic(bgm, -1);
+        Mix_ResumeMusic();
         pipes -> update();
         SDL_SetRenderDrawColor(renderer, 78, 192, 202, 255);
         for_each(all_birds.begin(), all_birds.end(), bind2nd(mem_fun(&Birds::update), pipes->getHeight()));
@@ -169,6 +180,7 @@ void Game::update(){
                     all_birds.push_back(new Birds(std::rand()%200, std::rand()%640));
                 }
                 cnt = 0;
+                break;
             }
             cout << "Curr. Point:" << cnt << endl;
         }
@@ -201,6 +213,8 @@ void Game::event_handler(){
             }
             else{
                 isStarted = true;
+                Mix_RewindMusic();
+                Mix_ResumeMusic();
             }
             break;
         default:

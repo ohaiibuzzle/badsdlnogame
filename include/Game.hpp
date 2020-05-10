@@ -28,6 +28,15 @@ private:
     bool isStarted = false;
     bool isRunning;
     SDL_Window *window;
+
+    SDL_Color introColor;
+    SDL_Color titleColor;
+    SDL_Color ptColor = {255, 255, 255};
+
+    SDL_Rect title_rect;
+    SDL_Rect font_rect;
+    SDL_Rect pt_rect;
+
 public:
     Game(/* args */);
     ~Game();
