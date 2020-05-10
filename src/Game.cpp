@@ -58,7 +58,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
                 {  
                     std::cout << "Renderer up!" << std::endl;
                     SDL_SetRenderDrawColor(renderer, 78, 192, 202, 255);
-                    
+                    SDL_SetWindowIcon(window, TextureLoader::sfLoader("assets/birdMid.png"));
                 }
             else
                 {
@@ -76,7 +76,6 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     {
         printf("Things happened: %s \n", SDL_GetError());
     }
-
     int code = Mix_Init(MIX_INIT_MP3);
 	if (!(code & MIX_INIT_MP3))
 	{
@@ -117,6 +116,17 @@ void Game::render(){
         SDL_Texture* pointDisplay = support::displayFont("Current Score: " + support::intText(cnt), "assets/displayFont.ttf", 96, ptColor);
 
         SDL_RenderCopy(renderer, pointDisplay, NULL, &pt_rect);
+
+        if (cheat_mode)
+        {
+            SDL_Texture* cheatDisplay = support::displayFont("HAX MODE ON!", "assets/displayFont.ttf", 96, haxColor);
+            hax_rect.x= 15;
+            hax_rect.y= 605;
+            hax_rect.h = 25;
+            hax_rect.w = 180;
+            SDL_RenderCopy(renderer, cheatDisplay, NULL, &hax_rect);
+            SDL_DestroyTexture(cheatDisplay);
+        }
 
         pipes->render();
         for_each(all_birds.begin(), all_birds.end(), mem_fun(&Birds::render));
@@ -176,7 +186,7 @@ void Game::update(){
         for_each(all_birds.begin(), all_birds.end(), bind2nd(mem_fun(&Birds::check_collision), pipes -> getRectDown()));
         for (auto i = 0; i != all_birds.size(); i++)
         {
-            if (all_birds[i]->check_defeat()) 
+            if (all_birds[i]->check_defeat() && !cheat_mode) 
             {
                 Mix_PauseMusic();
                 string score = support::formatScore(cnt);
@@ -190,11 +200,15 @@ void Game::update(){
                 difficulty = 1;
                 break;
             }
-            cout << "Curr. Point:" << cnt << endl;
+            else if (all_birds[i]->check_defeat() && cheat_mode){
+                all_birds[i] -> reset();
+                cnt++;
+            }
+            //cout << "Curr. Point:" << cnt << endl;
         }
         if (cnt > 10){
             if(rand() % 450*60 == 0) for_each(all_birds.begin(), all_birds.end(), mem_fun(&Birds::increase_speed));
-            if(rand() % 600*60 == 0) all_birds.push_back(new Birds(std::rand()%200, std::rand()%640));
+            if(rand() % 500*60 == 0) all_birds.push_back(new Birds(std::rand()%200, std::rand()%640));
         }
     }
     else

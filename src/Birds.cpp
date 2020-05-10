@@ -59,9 +59,16 @@ void Birds::decrease_speed()
     speed--;
 }
 
+void Birds::reset()
+{
+    dest.x = rand()%200;
+    dest.y = rand()%640;
+}
+
 bool Birds::check_collision(SDL_Rect pipeRect){
     if (((SDL_HasIntersection(&dest, &pipeRect) && SDL_TRUE)==SDL_TRUE)){
         dest.x = rand()%200;
+        dest.y = rand()%640;
         Game::cnt++;
         return true;
     }

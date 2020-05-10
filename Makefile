@@ -6,7 +6,7 @@ SRC		:= src
 INCLUDE	:= include
 LIB		:= lib
 
-CC_SDL := $(shell pkg-config --cflags --libs freetype2 sdl2) -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+CC_SDL := $(shell pkg-config --cflags --libs freetype2 sdl2 SDL2_image SDL2_mixer SDL2_ttf) -lb64
 
 LIBRARIES	:=
 EXECUTABLE	:= main
