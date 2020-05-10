@@ -33,11 +33,13 @@ private:
     SDL_Color titleColor;
     SDL_Color ptColor = {255, 255, 255};
     SDL_Color diffColor = {0, 0, 0};
+    SDL_Color haxColor = {255, 0, 0};
 
     SDL_Rect title_rect;
     SDL_Rect font_rect;
     SDL_Rect pt_rect;
     SDL_Rect diff_rect;
+    SDL_Rect hax_rect;
 
     int difficulty = 1;
 public:
@@ -61,6 +63,8 @@ public:
     static int cnt; 
 
     static Mix_Chunk* smashfx;
+
+    bool cheat_mode = false;
 };
 
 #endif

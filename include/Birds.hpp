@@ -32,4 +32,6 @@ class Birds
 
         bool check_collision(SDL_Rect pipeRect);
         bool check_defeat();
+
+        void reset();
 };

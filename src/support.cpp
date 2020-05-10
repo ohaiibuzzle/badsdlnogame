@@ -39,3 +39,28 @@ SDL_Texture* support::displayFont(string text, string path, int size, SDL_Color 
         return nullptr;
     }
 }
+
+string support::encodedata(string inp)
+{
+    base64::encoder E;
+    stringstream in, out;
+    in << inp;
+    E.encode(in, out);
+    return out.str();
+}
+
+string support::decodedata(string inp)
+{
+    base64::decoder E;
+    stringstream in, out;
+    in << inp;
+    E.decode(in, out);
+    return out.str();
+}
+
+static string toString(const char* inp)
+{
+    stringstream in;
+    in << inp;
+    return in.str();
+}
